@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'main.dart';
 
 double monthly(Map storedData){
   DateTime todayDate = DateTime.now();
@@ -38,36 +39,63 @@ double monthly(Map storedData){
   return total;
 }
 
-/*
-String nextPayment(Map subInfo){
+DateTime nextPayment(Map subInfo){
   DateTime today = DateTime.now();
   DateTime start = dateFormatter.parse(subInfo['date']);
-  int number = subInfo['period'][0];
   String unit = subInfo['period'][1];
   if(unit == 'day'){
-    return dateFormatter.format(today.add(Duration(days: number)));
+    //return date of tommorrow
+    return today.add(const Duration(days: 1));
   }
   if(unit == 'week'){
-    return dateFormatter.format(start.add(Duration(days: 7*number)));
+    //return date of next week, 
+    int day = start.weekday;
+    int todayDay = today.weekday;
+    if(todayDay < day){
+      return today.add(Duration(days: day-todayDay));
+    }else{
+      return today.add(Duration(days: (7-todayDay+day)));
+    }
   }
   if(unit == 'month'){
-    total = total + price/number;
-    continue;
+    int subDay = start.day;
+    int todayDay = today.day;
+    if(todayDay < subDay){
+      return DateTime(today.year, today.month, subDay);
+    }else{
+      return DateTime(today.year, today.month + 1, subDay);
+    }
   }
   if(unit == 'year'){
-    total = total + price/(number*12);
-    continue;
+    DateTime thisYearPayment = DateTime(today.year, start.month, start.day);
+    if(today.isBefore(thisYearPayment)){
+      return thisYearPayment;
+    }else{
+      return DateTime(today.year + 1, start.month, start.day);
+    }
   }
   if(unit == 'decade'){
-    total = total + price/(number*12*10);
-    continue;
+    return DateTime(today.year + 10, today.month, today.day);
   }
   if(unit == 'century'){
-    total = total + price/(number*12*100);
-    continue;
+    return DateTime(today.year + 100, today.month, today.day);
   }
+  return today;
 }
-*/
+
+String getEarliest(){
+  List<DateTime> datelist = [];
+  for(int x = 0; x<storedData['list'].length; x++){
+    datelist.add(nextPayment(storedData['list'][x]));
+  }
+  DateTime earliest = datelist[0];
+  for(int x = 1; x<datelist.length; x++){
+    if(datelist[x].isBefore(earliest)){
+      earliest = datelist[x];
+    }
+  }
+  return dateFormatter.format(earliest);
+}
 
 //call this function in any part of your function if you want to show a message window.
 Future messageWindow(BuildContext context, String title, String body){

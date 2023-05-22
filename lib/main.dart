@@ -510,6 +510,7 @@ class _MyAppState extends State<MyApp> {
           Divider(color: lighterCol(themeColor, alpha: 100), thickness: 2),
           const SizedBox(height: 20),
           showText("NEXT PAYMENT", scale: 1.5),
+          showText(getEarliest(), scale: 2.3)
         ]),
       ),
     );
