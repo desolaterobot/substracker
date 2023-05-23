@@ -387,8 +387,10 @@ class _MyAppState extends State<MyApp> {
         context: context,
         builder: (context) => AlertDialog(
           title: showText(subInfo['name'], scale: 1.5),
-          content: SingleChildScrollView(
-              child: showText(subInfo['other info'], scale: 1.3)
+          content: Column(
+              children: [
+                showText(subInfo['other info'], scale: 1.3),
+              ]
           ),
           actions: [
             Row(

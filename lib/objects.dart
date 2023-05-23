@@ -48,7 +48,7 @@ DateTime nextPayment(Map subInfo){
     return today.add(const Duration(days: 1));
   }
   if(unit == 'week'){
-    //return date of next week, 
+    /*
     int day = start.weekday;
     int todayDay = today.weekday;
     if(todayDay < day){
@@ -56,8 +56,14 @@ DateTime nextPayment(Map subInfo){
     }else{
       return today.add(Duration(days: (7-todayDay+day)));
     }
+    */
+    while(today.isAfter(start)){
+      start = DateTime(start.year, start.month, start.day + 7);
+    }
+    return start;
   }
   if(unit == 'month'){
+    /*
     int subDay = start.day;
     int todayDay = today.day;
     if(todayDay < subDay){
@@ -65,20 +71,29 @@ DateTime nextPayment(Map subInfo){
     }else{
       return DateTime(today.year, today.month + 1, subDay);
     }
+    */
+    while(today.isAfter(start)){
+      start = DateTime(start.year, start.month + 1, start.day);
+    }
+    return start;
   }
   if(unit == 'year'){
-    DateTime thisYearPayment = DateTime(today.year, start.month, start.day);
-    if(today.isBefore(thisYearPayment)){
-      return thisYearPayment;
-    }else{
-      return DateTime(today.year + 1, start.month, start.day);
+    while(today.isAfter(start)){
+      start = DateTime(start.year + 1, start.month, start.day);
     }
+    return start;
   }
   if(unit == 'decade'){
-    return DateTime(today.year + 10, today.month, today.day);
+    while(today.isAfter(start)){
+      start = DateTime(start.year + 10, start.month, start.day);
+    }
+    return start;
   }
   if(unit == 'century'){
-    return DateTime(today.year + 100, today.month, today.day);
+    while(today.isAfter(start)){
+      start = DateTime(start.year + 100, start.month, start.day);
+    }
+    return start;
   }
   return today;
 }
