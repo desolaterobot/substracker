@@ -3,6 +3,24 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'main.dart';
 
+Widget dashFix(){
+  if(storedData['list'].length == 0){
+    return showText(
+      'Press the button on the bottom-right to add your first subscription.', 
+      align: TextAlign.center,
+      scale: 1.6
+    );
+  }else{  
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+      showText("NEXT PAYMENT", scale: 1.5),
+      showText(getEarliest()[0], scale: 2.3),
+      showText(getEarliest()[1], scale: 1.4),
+    ]);
+  }
+}
+
 double monthly(Map storedData){
   DateTime todayDate = DateTime.now();
   double total = 0;
@@ -98,18 +116,20 @@ DateTime nextPayment(Map subInfo){
   return today;
 }
 
-String getEarliest(){
+List<String> getEarliest(){
   List<DateTime> datelist = [];
   for(int x = 0; x<storedData['list'].length; x++){
     datelist.add(nextPayment(storedData['list'][x]));
   }
   DateTime earliest = datelist[0];
-  for(int x = 1; x<datelist.length; x++){
+  int earliestIndex = 0;
+  for(int x = 0; x<datelist.length; x++){
     if(datelist[x].isBefore(earliest)){
       earliest = datelist[x];
+      earliestIndex = x;
     }
   }
-  return dateFormatter.format(earliest);
+  return [dateFormatter.format(earliest), storedData['list'][earliestIndex]['name']];
 }
 
 //call this function in any part of your function if you want to show a message window.
@@ -207,7 +227,7 @@ Map str2map(String s){
 }
 
 //converts a list to a color
-Color list2col(List<int> list){
+Color list2col(List<dynamic> list){
   return Color.fromARGB(list[0], list[1], list[2], list[3]);
 }
 

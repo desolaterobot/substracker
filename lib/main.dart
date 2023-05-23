@@ -8,16 +8,6 @@ import 'package:intl/intl.dart';
 late GetStorage box;
 var dateFormatter = DateFormat('dd-MMM-yyyy');
 
-void main() async {
-  await GetStorage.init();
-  box = GetStorage();
-  box.write('test', 'this is the test string.');
-  runApp(
-    const MaterialApp(
-      home: MyApp(),
-    ),
-  );
-}
 
 Map storedData = {
   "appTheme" : [255, 57, 77, 187],
@@ -62,6 +52,22 @@ Map initialData = {
   "list" : [],
 };
 
+void main() async {
+  await GetStorage.init();
+  box = GetStorage();
+  if(box.read('key') == null){
+    box.write('key', initialData);
+  }
+  storedData = box.read('key');
+  print(box.read('key'));
+
+  runApp(
+    const MaterialApp(
+      home: MyApp(),
+    ),
+  );
+}
+
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
   @override
@@ -70,6 +76,13 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Color themeColor = list2col(storedData["appTheme"]);
+  late Color lighterTheme = lighterCol(themeColor);
+
+  void saveInfo(){
+    setState((){
+      
+    });
+  }
 
   //function for adding subscription
   void addSub(String name, double price, int number, String period, Color color, String otherInfo, DateTime startSub){
@@ -89,17 +102,13 @@ class _MyAppState extends State<MyApp> {
 
   //function for removing subsctiption
   void removeSub(String name){
-    print("removing sub ${name}");
     setState(() {
       for(int x = 0; x<storedData['list'].length; x++){
         if(storedData['list'][x]['name'] == name){
           storedData['list'].removeAt(x);
-          print("done with removal");
-          print(storedData);
           return;
         }
       }
-      print("unsuccessful removal");
       return;
     });
   }
@@ -107,15 +116,8 @@ class _MyAppState extends State<MyApp> {
   //fucntion to change system color.
   void changeCol(Color col){ 
     setState(() {
-      print("col changed");
       themeColor = col; //set the global themeColor to the set color,
       storedData["appTheme"] = col2list(col); //then store it into storedData
-    });
-  }
-
-  void update(){
-    setState(() {
-      
     });
   }
 
@@ -282,6 +284,7 @@ class _MyAppState extends State<MyApp> {
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 decoration: const InputDecoration(
+                  hintText: 'usernames, passwords or whatever...',
                   labelStyle: TextStyle(
                     fontFamily: 'Wix'
                   ),
@@ -388,8 +391,15 @@ class _MyAppState extends State<MyApp> {
         builder: (context) => AlertDialog(
           title: showText(subInfo['name'], scale: 1.5),
           content: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                showText(subInfo['other info'], scale: 1.3),
+                SingleChildScrollView(child: showText(subInfo['other info'], scale: 1.3)),
+                const SizedBox(height: 20),
+                Divider(thickness: 2, color:  lighterCol(themeColor)),
+                const SizedBox(height: 20),
+                showText('NEXT PAYMENT'),
+                showText(dateFormatter.format(nextPayment(subInfo)), scale: 1.6),
+                showText(DateFormat('EEEE').format(nextPayment(subInfo)), scale: 1.2),
               ]
           ),
           actions: [
@@ -508,11 +518,10 @@ class _MyAppState extends State<MyApp> {
           showText("EXPENDITURE", scale: 2),
           showText('\$${double.parse(monthly(storedData).toStringAsFixed(2))}/month', scale: 3.2),
           showText('\$${double.parse((monthly(storedData)*12).toStringAsFixed(2))}/year', scale: 1.7),
-          const SizedBox(height: 20),
+          const SizedBox(height: 15),
           Divider(color: lighterCol(themeColor, alpha: 100), thickness: 2),
           const SizedBox(height: 20),
-          showText("NEXT PAYMENT", scale: 1.5),
-          showText(getEarliest(), scale: 2.3)
+          dashFix(),
         ]),
       ),
     );
@@ -521,7 +530,6 @@ class _MyAppState extends State<MyApp> {
   //SCAFFOLD
   @override
   Widget build(BuildContext context) {
-    print('started app build');
     return MaterialApp(
       home: Scaffold(
         backgroundColor: lighterCol(themeColor),
