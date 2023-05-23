@@ -3,6 +3,14 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'main.dart';
 
+Widget window(Map subInfo){
+  if(subInfo['other info'] != ""){ 
+    return showText(subInfo['other info'], scale: 1.3);
+  }else{
+    return showText('(no other notes given)', scale: 1.3);
+  }
+}
+
 Widget dashFix(){
   if(storedData['list'].length == 0){
     return showText(
@@ -15,8 +23,8 @@ Widget dashFix(){
       mainAxisSize: MainAxisSize.min,
       children: [
       showText("NEXT PAYMENT", scale: 1.5),
-      showText(getEarliest()[0], scale: 2.3),
-      showText(getEarliest()[1], scale: 1.4),
+      showText(getEarliest()[0], scale: 2.8),
+      showText(getEarliest()[1], scale: 1.7),
     ]);
   }
 }
@@ -153,7 +161,7 @@ Color darklighttext(Color bg){
   return bg.computeLuminance() > 0.5 ? Colors.black : Colors.white;
 }
 
-String priceFormat(List<Object> list){
+String priceFormat(List<dynamic> list){
   if(list[0] != 1){
     return "/ ${list[0]} ${list[1]}s";
   }else{

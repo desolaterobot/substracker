@@ -79,9 +79,7 @@ class _MyAppState extends State<MyApp> {
   late Color lighterTheme = lighterCol(themeColor);
 
   void saveInfo(){
-    setState((){
-      
-    });
+    box.write('key', storedData);
   }
 
   //function for adding subscription
@@ -95,7 +93,7 @@ class _MyAppState extends State<MyApp> {
         'date' : dateFormatter.format(startSub),
         'other info' : otherInfo,
       };
-      print(toAdd);
+      saveInfo();
       storedData['list'].add(toAdd);
     });
   }
@@ -106,9 +104,11 @@ class _MyAppState extends State<MyApp> {
       for(int x = 0; x<storedData['list'].length; x++){
         if(storedData['list'][x]['name'] == name){
           storedData['list'].removeAt(x);
+          saveInfo();
           return;
         }
       }
+      saveInfo();
       return;
     });
   }
@@ -118,6 +118,7 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       themeColor = col; //set the global themeColor to the set color,
       storedData["appTheme"] = col2list(col); //then store it into storedData
+      saveInfo();
     });
   }
 
@@ -393,13 +394,13 @@ class _MyAppState extends State<MyApp> {
           content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SingleChildScrollView(child: showText(subInfo['other info'], scale: 1.3)),
+                SingleChildScrollView(child: window(subInfo)),
                 const SizedBox(height: 20),
                 Divider(thickness: 2, color:  lighterCol(themeColor)),
                 const SizedBox(height: 20),
-                showText('NEXT PAYMENT'),
-                showText(dateFormatter.format(nextPayment(subInfo)), scale: 1.6),
-                showText(DateFormat('EEEE').format(nextPayment(subInfo)), scale: 1.2),
+                showText('NEXT PAYMENT', scale: 1.4),
+                showText(dateFormatter.format(nextPayment(subInfo)), scale: 2),
+                showText(DateFormat('EEEE').format(nextPayment(subInfo)), scale: 1.6),
               ]
           ),
           actions: [
@@ -520,7 +521,7 @@ class _MyAppState extends State<MyApp> {
           showText('\$${double.parse((monthly(storedData)*12).toStringAsFixed(2))}/year', scale: 1.7),
           const SizedBox(height: 15),
           Divider(color: lighterCol(themeColor, alpha: 100), thickness: 2),
-          const SizedBox(height: 20),
+          const SizedBox(height: 15),
           dashFix(),
         ]),
       ),
@@ -537,7 +538,8 @@ class _MyAppState extends State<MyApp> {
           backgroundColor: themeColor,
           title: showText('Track Subscriptions', scale: 1.1, col: darklighttext(themeColor), font: 'Wix'),
           actions: [IconButton(onPressed: ()=>helpWindow(context), 
-          icon: const Icon(Icons.help_outline_rounded))],
+          icon: Icon(Icons.question_mark, color: darklighttext(themeColor)))
+          ],
           bottomOpacity: 0.5,
         ),
         body: ListView(
@@ -554,7 +556,7 @@ class _MyAppState extends State<MyApp> {
           backgroundColor: themeColor,
           onPressed: (){addWindow(context);},
           tooltip: 'Add new subscription',
-          child: const Icon(Icons.add),
+          child: Icon(Icons.add, color: darklighttext(themeColor)),
         ),
       ),
     );
