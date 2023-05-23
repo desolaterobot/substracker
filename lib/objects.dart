@@ -5,9 +5,9 @@ import 'main.dart';
 
 Widget window(Map subInfo){
   if(subInfo['other info'] != ""){ 
-    return showText(subInfo['other info'], scale: 1.3);
+    return showText(subInfo['other info'], scale: 1.3, align: TextAlign.center);
   }else{
-    return showText('(no other notes given)', scale: 1.3);
+    return showText('(no other notes given)', scale: 1.3, align: TextAlign.center);
   }
 }
 
@@ -247,9 +247,11 @@ List<int> col2list(Color col){
 
 String aboutParagraph = 
 """
-This is an app that tracks your financial subscriptions. Subscriptions be daily, monthly, yearly or any other custom period. The app will then show the total expenditure for the month, along with other data.
+This is an app that tracks your financial subscriptions. Subscriptions be daily, monthly, yearly or any other custom period. The app will then show the average total expenditure for the month, along with other data. 
 
 To add a subscription, tap the circular button on the bottom right area of the screen, and fill in the details. 
 
-To delete, click on the subscription card and press DELETE.
+Subscriptions are laid out below the dashboard as a list of cards with your choice of colors.
+
+To delete a subscription, click on the subscription card and press DELETE.
 """;

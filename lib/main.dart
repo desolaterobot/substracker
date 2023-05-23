@@ -377,12 +377,19 @@ class _MyAppState extends State<MyApp> {
                   ],
                 ),
               ),
-              Flexible(
+              Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(left: 40),
-                  child: SingleChildScrollView(child: showText(subInfo['other info'], scale: 1.2, align: TextAlign.right, col: darklighttext(colA)),),
-                )
-              )
+                  child: SingleChildScrollView(
+                    child: showText(
+                      subInfo['other info'], 
+                      scale: 1.2, 
+                      align: TextAlign.right,
+                      col: darklighttext(colA)
+                    ),
+                  )
+                ),
+              ),
             ],
           ),
         )
@@ -390,7 +397,7 @@ class _MyAppState extends State<MyApp> {
       onTap: ()=>showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: showText(subInfo['name'], scale: 1.5),
+          title: showText(subInfo['name'], scale: 1.5, align: TextAlign.center),
           content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
