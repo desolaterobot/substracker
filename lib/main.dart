@@ -59,8 +59,6 @@ void main() async {
     box.write('key', initialData);
   }
   storedData = box.read('key');
-  print(box.read('key'));
-
   runApp(
     const MaterialApp(
       home: MyApp(),
@@ -83,7 +81,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   //function for adding subscription
-  void addSub(String name, double price, int number, String period, Color color, String otherInfo, DateTime startSub){
+  void addSub(String name, double price, int number, String period, Color color, String otherInfo, DateTime startSub,
+  {int? index}){
     setState(() {
       Map<String, Object> toAdd = {
         'name' : name,
@@ -94,7 +93,11 @@ class _MyAppState extends State<MyApp> {
         'other info' : otherInfo,
       };
       saveInfo();
-      storedData['list'].add(toAdd);
+      if(index != null){
+        storedData['list'][index] = toAdd;
+      }else{
+        storedData['list'].add(toAdd);
+      }
     });
   }
 
@@ -123,9 +126,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   //ADD SUBSCRIPTION WINDOW
-  Future<dynamic> addWindow(BuildContext context){
-    print('add window started');
-
+  Future<dynamic> addWindow(BuildContext context, {Map sub = const {}, int? index}){
     String name = '';
     double price = 0;
     int number = 1;
@@ -134,9 +135,29 @@ class _MyAppState extends State<MyApp> {
     DateTime startSub = DateTime.now();
     String otherInfo = "";
 
+    String windowTitle = "Create new subscription";
+    String buttonTitle = 'ADD';
+
     TextEditingController nameCont =  TextEditingController();
     TextEditingController priceCont =  TextEditingController();
     TextEditingController otherInfoCont = TextEditingController();
+
+    if(index != null){
+      name = sub['name'];
+      price = sub['price'];
+      number = sub['period'][0];
+      period = sub['period'][1];
+      color = list2col(sub['color']);
+      startSub = dateFormatter.parse(sub['date']);
+      otherInfo = sub['other info'];
+      windowTitle = 'Edit $name';
+
+      nameCont.text = name;
+      priceCont.text = price.toString();
+      otherInfoCont.text = otherInfo;
+      
+      buttonTitle = 'EDIT';
+    }
 
     void pickDate(){ //display date picker
       showDatePicker(
@@ -155,7 +176,7 @@ class _MyAppState extends State<MyApp> {
       context: context,
       builder: (BuildContext context) => StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) => AlertDialog(
-        title: showText("Create new subscription", scale: 1.4),
+        title: showText(windowTitle, scale: 1.4),
         content: SingleChildScrollView(
             child: Column(children: [
               TextField( //NAME TEXTFIELD
@@ -197,7 +218,6 @@ class _MyAppState extends State<MyApp> {
                     DropdownMenuItem(child: showText('centurily'), value: 'century'),
                   ],
                   onChanged: (String? value){
-                    print(value);
                     setState(() {
                       period = value!;
                     });
@@ -312,10 +332,16 @@ class _MyAppState extends State<MyApp> {
                   return;
                 }
                 otherInfo = otherInfoCont.text;
-                addSub(name, price, number, period, color, otherInfo, startSub);
-                closeWindow(context);
+                if(index != null){
+                  addSub(name, price, number, period, color, otherInfo, startSub, index: index);
+                  closeWindow(context);
+                  closeWindow(context);
+                }else{
+                  addSub(name, price, number, period, color, otherInfo, startSub);
+                  closeWindow(context);
+                }
               },
-              child: showText("ADD", scale: 2.3),
+              child: showText(buttonTitle, scale: 2.3),
             ),
           ],
         )
@@ -415,7 +441,7 @@ class _MyAppState extends State<MyApp> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: 
               [
-                TextButton(
+                TextButton( //DELETE BUTTON
                   onPressed: ()=>showDialog(
                     context: context, builder: (context) => AlertDialog(
                       title: showText('Are you sure?', scale: 1.6),
@@ -434,8 +460,13 @@ class _MyAppState extends State<MyApp> {
                   ),
                   child: showText("DELETE", scale: 2, col: const Color.fromARGB(255, 235, 25, 10))
                 ),
-                const SizedBox(width: 20),
-                TextButton(
+                const SizedBox(width: 15),
+                TextButton( //EDIT BUTTON
+                  onPressed:()=>addWindow(context, sub: subInfo, index: storedData['list'].indexOf(subInfo)),
+                  child: showText("EDIT", scale: 2)
+                ),
+                const SizedBox(width: 15),
+                TextButton( //CLOSE BUTTON
                   onPressed: closeWindowFunc(context),
                   child: showText("CLOSE", scale: 2)
                 ),

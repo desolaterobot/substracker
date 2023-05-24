@@ -3,6 +3,10 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'main.dart';
 
+void editData(Map editedData, int index){
+  storedData['list'][index] = editedData;
+}
+
 Widget window(Map subInfo){
   if(subInfo['other info'] != ""){ 
     return showText(subInfo['other info'], scale: 1.3, align: TextAlign.center);
