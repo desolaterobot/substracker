@@ -86,7 +86,7 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       Map<String, Object> toAdd = {
         'name' : name,
-        'price' : price,
+        'price' : double.parse(price.toStringAsFixed(2)),
         'period' : [number, period],
         'color' : col2list(color),
         'date' : dateFormatter.format(startSub),
@@ -176,8 +176,9 @@ class _MyAppState extends State<MyApp> {
       context: context,
       builder: (BuildContext context) => StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) => AlertDialog(
-        title: showText(windowTitle, scale: 1.4),
+        title: showText(windowTitle, scale: 1),
         content: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
             child: Column(children: [
               TextField( //NAME TEXTFIELD
                 controller: nameCont,
@@ -267,17 +268,17 @@ class _MyAppState extends State<MyApp> {
                   child: showText('CARD COLOR', scale: 1.5, col: darklighttext(color)), 
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 20),
               showText('SUBSCRIPTION START DATE'),
-              const SizedBox(height: 10),
-              Row(
+              const SizedBox(height:4),
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   showText(dateFormatter.format(startSub), scale: 1.5),
-                  const SizedBox(width: 20),
+                  const SizedBox(height: 10),
                   SizedBox(
                     width: 150,
-                    height: 50,
+                    height: 35,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blueGrey[200],
@@ -370,7 +371,7 @@ class _MyAppState extends State<MyApp> {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
         alignment: Alignment.center,
-        height: 200,
+        height: 180,
         width: 300,
         decoration: BoxDecoration(
           color: colA,
@@ -398,24 +399,26 @@ class _MyAppState extends State<MyApp> {
                     showText(subInfo['name'], scale: 1.8, col: colB),
                     showText(("\$${subInfo['price']}"), scale: 3, col: colB),
                     showText(priceFormat(subInfo['period']), scale: 1.4, col: colB),
-                    const SizedBox(height: 36),
+                    const SizedBox(height: 15),
                     showText(subInfo['date'], col: colB, scale: 1.2),
                   ],
                 ),
               ),
+              /*
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(left: 40),
                   child: SingleChildScrollView(
-                    child: showText(
-                      subInfo['other info'], 
-                      scale: 1.2, 
-                      align: TextAlign.right,
-                      col: darklighttext(colA)
-                    ),
+                      child: showText(
+                        subInfo['other info'], 
+                        scale: 1.2, 
+                        align: TextAlign.right,
+                        col: darklighttext(colA)
+                      ),
                   )
                 ),
               ),
+              */
             ],
           ),
         )
@@ -458,17 +461,17 @@ class _MyAppState extends State<MyApp> {
                       ],
                     )
                   ),
-                  child: showText("DELETE", scale: 2, col: const Color.fromARGB(255, 235, 25, 10))
+                  child: showText("DELETE", scale: 1.5, col: const Color.fromARGB(255, 235, 25, 10))
                 ),
-                const SizedBox(width: 15),
+                const SizedBox(width: 5),
                 TextButton( //EDIT BUTTON
                   onPressed:()=>addWindow(context, sub: subInfo, index: storedData['list'].indexOf(subInfo)),
-                  child: showText("EDIT", scale: 2)
+                  child: showText("EDIT", scale: 1.5)
                 ),
-                const SizedBox(width: 15),
+                const SizedBox(width: 5),
                 TextButton( //CLOSE BUTTON
                   onPressed: closeWindowFunc(context),
-                  child: showText("CLOSE", scale: 2)
+                  child: showText("CLOSE", scale: 1.5)
                 ),
               ],
             )
@@ -484,12 +487,12 @@ class _MyAppState extends State<MyApp> {
       context: context,
       builder: (context) => AlertDialog(
         title: showText("What is this?"), //this is the title
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
+        content: ListView(
+          shrinkWrap: true,
           children: [
-            showText(aboutParagraph, scale: 1.2),
+            showText(aboutParagraph, scale: 0.9, align: TextAlign.center),
             SizedBox(
-              width: 250,
+              width: 100,
               height: 50,
               child: ElevatedButton( //button for changing color
                 onPressed:(){ 
@@ -523,7 +526,7 @@ class _MyAppState extends State<MyApp> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueGrey[200]
                 ),
-                child: showText('CHANGE COLOR THEME', scale: 1.3, col: Colors.black)
+                child: showText('CHANGE COLOR THEME', scale: 1.2, col: Colors.black)
               ),
             ),
           ] 
@@ -543,7 +546,7 @@ class _MyAppState extends State<MyApp> {
     return Container(
       margin: const EdgeInsets.all(30),
       alignment: Alignment.center,
-      height: 300,
+      height: 280,
       width: 300,
       decoration: BoxDecoration(
         boxShadow: shadow(),
@@ -554,9 +557,9 @@ class _MyAppState extends State<MyApp> {
       child: Padding(
         padding: EdgeInsets.all(10),
         child: Column(children: [
-          showText("EXPENDITURE", scale: 2),
-          showText('\$${double.parse(monthly(storedData).toStringAsFixed(2))}/month', scale: 3.2),
-          showText('\$${double.parse((monthly(storedData)*12).toStringAsFixed(2))}/year', scale: 1.7),
+          showText("EXPENDITURE", scale: 1.5),
+          FittedBox(child: showText('\$${double.parse(monthly(storedData).toStringAsFixed(2))}/month', scale: 2.4)),
+          FittedBox(child: showText('\$${double.parse((monthly(storedData)*12).toStringAsFixed(2))}/year', scale: 1.7)),
           const SizedBox(height: 15),
           Divider(color: lighterCol(themeColor, alpha: 100), thickness: 2),
           const SizedBox(height: 15),
@@ -581,9 +584,10 @@ class _MyAppState extends State<MyApp> {
           bottomOpacity: 0.5,
         ),
         body: ListView(
+          physics: const BouncingScrollPhysics(),
           children: [
             dashboard(),
-            showText("${storedData['list'].length} TOTAL SUBSCRIPTIONS", scale: 1.3, col: Colors.black38, align: TextAlign.center),
+            showText("${storedData['list'].length} TOTAL SUBSCRIPTIONS", scale: 1.3, col: Colors.white24, align: TextAlign.center),
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               verticalDirection: VerticalDirection.up,

@@ -27,7 +27,7 @@ Widget dashFix(){
       mainAxisSize: MainAxisSize.min,
       children: [
       showText("NEXT PAYMENT", scale: 1.5),
-      showText(getEarliest()[0], scale: 2.8),
+      showText(getEarliest()[0], scale: 2.6),
       showText(getEarliest()[1], scale: 1.7),
     ]);
   }
@@ -207,6 +207,7 @@ Text showText (String text, {
 }) {
   return Text(
     text,
+    overflow: TextOverflow.fade,
     textAlign: align,
     textScaleFactor: scale,
     style: TextStyle(
