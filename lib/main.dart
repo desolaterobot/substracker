@@ -141,6 +141,7 @@ class _MyAppState extends State<MyApp> {
     TextEditingController nameCont =  TextEditingController();
     TextEditingController priceCont =  TextEditingController();
     TextEditingController otherInfoCont = TextEditingController();
+    TextEditingController numberCont = TextEditingController();
 
     if(index != null){
       name = sub['name'];
@@ -158,6 +159,7 @@ class _MyAppState extends State<MyApp> {
       
       buttonTitle = 'EDIT';
     }
+    numberCont.text = number.toString();
 
     void pickDate(){ //display date picker
       showDatePicker(
@@ -199,33 +201,97 @@ class _MyAppState extends State<MyApp> {
                   labelText: 'Price',
                 ),
               ),
-              const SizedBox(height: 20),
-              //showText('PAYMENT INTERVAL'),
-              SizedBox( //MONTH TEXT FIELD
-                height: 60,
-                width: 145,
-                child: DropdownButton<String>(
-                  iconSize: 50,
-                  isExpanded: true,
-                  style: TextStyle(color: themeColor, fontSize: 20),
-                  value: period,
-                  underline: Container(height: 2, color: themeColor),
-                  items: [
-                    DropdownMenuItem(child: showText('daily'), value: 'day'),
-                    DropdownMenuItem(child: showText('weekly'), value: 'week'),
-                    DropdownMenuItem(child: showText('monthly'), value: 'month'),
-                    DropdownMenuItem(child: showText('yearly'), value: 'year'),
-                    DropdownMenuItem(child: showText('decadely'), value: 'decade'),
-                    DropdownMenuItem(child: showText('centurily'), value: 'century'),
-                  ],
-                  onChanged: (String? value){
-                    setState(() {
-                      period = value!;
-                    });
-                  },
+              const SizedBox(height: 30),
+              showText('PAYMENT INTERVAL'),
+              Row(
+                children: [
+                  SizedBox(
+                    height: 60,
+                    width: 70,
+                    child: TextField( //CHOOSE NUMBER
+                      controller: numberCont,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(
+                          fontFamily: 'Wix'
+                        ),
+                        labelText: 'Number',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  SizedBox( //MONTH TEXT FIELD
+                    height: 60,
+                    width: 132,
+                    child: DropdownButton<String>(
+                      iconSize: 25,
+                      isExpanded: true,
+                      style: TextStyle(color: themeColor, fontSize: 26),
+                      value: period,
+                      underline: Container(height: 2, color: themeColor),
+                      items: [
+                        DropdownMenuItem(child: showText('day'), value: 'day'),
+                        DropdownMenuItem(child: showText('week'), value: 'week'),
+                        DropdownMenuItem(child: showText('month'), value: 'month'),
+                        DropdownMenuItem(child: showText('year'), value: 'year'),
+                        DropdownMenuItem(child: showText('decade'), value: 'decade'),
+                        DropdownMenuItem(child: showText('century'), value: 'century'),
+                      ],
+                      onChanged: (String? value){
+                        setState(() {
+                          period = value!;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 30),
+              showText('SUBSCRIPTION START DATE'),
+              const SizedBox(height:4),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  showText(dateFormatter.format(startSub), scale: 1.5),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: 150,
+                    height: 35,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueGrey[200],
+                      ),
+                      onPressed: ()=>{
+                        showDatePicker(
+                          context: context, 
+                          initialDate: DateTime.now(), 
+                          firstDate: DateTime(1970), 
+                          lastDate: DateTime.now(),
+                        ).then((value){
+                          setState(() {
+                            startSub = value!;
+                          });
+                        })
+                      },
+                      child: showText('CHANGE DATE', scale: 1.15),
+                    )
+                  )
+                ],
+              ),
+              const SizedBox(height: 15),
+              TextField( //OTHER NOTES TEXT FIELD
+                controller: otherInfoCont,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                decoration: const InputDecoration(
+                  hintText: 'passwords or whatever...',
+                  labelStyle: TextStyle(
+                    fontFamily: 'Wix'
+                  ),
+                  labelText: 'Other notes',
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
               SizedBox( //CARD COLOR BUTTON
                 height: 50,
                 width: 250,
@@ -268,83 +334,54 @@ class _MyAppState extends State<MyApp> {
                   child: showText('CARD COLOR', scale: 1.5, col: darklighttext(color)), 
                 ),
               ),
-              const SizedBox(height: 20),
-              showText('SUBSCRIPTION START DATE'),
-              const SizedBox(height:4),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  showText(dateFormatter.format(startSub), scale: 1.5),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    width: 150,
-                    height: 35,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blueGrey[200],
-                      ),
-                      onPressed: ()=>{
-                        showDatePicker(
-                          context: context, 
-                          initialDate: DateTime.now(), 
-                          firstDate: DateTime(1970), 
-                          lastDate: DateTime.now(),
-                        ).then((value){
-                          setState(() {
-                            startSub = value!;
-                          });
-                        })
-                      },
-                      child: showText('CHANGE DATE', scale: 1.15),
-                    )
-                  )
-                ],
-              ),
-              const SizedBox(height: 20),
-              TextField( //OTHER NOTES TEXT FIELD
-                controller: otherInfoCont,
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                decoration: const InputDecoration(
-                  hintText: 'usernames, passwords or whatever...',
-                  labelStyle: TextStyle(
-                    fontFamily: 'Wix'
-                  ),
-                  labelText: 'Other notes',
-                ),
-              )
-            ],)
+            ],
+            )
           ),
-        actions: [
-            TextButton(
-              onPressed: (){
-                name = nameCont.text;
-                if(name == ''){
-                  messageWindow(context, 'Invalid Input', 'Please enter a name.');
-                  return;
-                }
-                if(num.tryParse(priceCont.text) == null){
-                  messageWindow(context, 'Invalid Input', 'Price must be numerical and non-zero.');
-                  return;
-                }
-                price = double.parse(priceCont.text);
-                if(num.parse(priceCont.text) == 0){
-                  messageWindow(context, 'Invalid Input', 'Price must be non-zero.');
-                  return;
-                }
-                otherInfo = otherInfoCont.text;
-                if(index != null){
-                  addSub(name, price, number, period, color, otherInfo, startSub, index: index);
-                  closeWindow(context);
-                  closeWindow(context);
-                }else{
-                  addSub(name, price, number, period, color, otherInfo, startSub);
-                  closeWindow(context);
-                }
-              },
-              child: showText(buttonTitle, scale: 2.3),
-            ),
-          ],
+        actions: [Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children:[
+                TextButton(
+                  onPressed: (){
+                    messageWindow(context, 'Help', helpParagraph, scale: 0.8);
+                  },
+                  child: showText('HELP', scale: 2.3),
+                ),
+                TextButton(
+                  onPressed: (){
+                    name = nameCont.text;
+                    if(name == ''){
+                      messageWindow(context, 'Invalid Input', 'Please enter a name.');
+                      return;
+                    }
+                    if(num.tryParse(priceCont.text) == null || num.tryParse(numberCont.text) == null){
+                      messageWindow(context, 'Invalid Input', 'Price and number must be numerical and non-zero.');
+                      return;
+                    }
+                    price = double.parse(priceCont.text);
+                    if(num.parse(priceCont.text) == 0 || num.parse(numberCont.text) == 0){
+                      messageWindow(context, 'Invalid Input', 'Price and number must be non-zero.');
+                      return;
+                    }
+                    otherInfo = otherInfoCont.text;
+                    if(int.tryParse(numberCont.text) == null){
+                      messageWindow(context, 'Invalid Input', 'Number must be integer value.');
+                      return;
+                    }
+                    number = int.parse(numberCont.text);
+                    if(index != null){
+                      addSub(name, price, number, period, color, otherInfo, startSub, index: index);
+                      closeWindow(context);
+                      closeWindow(context);
+                    }else{
+                      addSub(name, price, number, period, color, otherInfo, startSub);
+                      closeWindow(context);
+                    }
+                  },
+                  child: showText(buttonTitle, scale: 2.3),
+                ),
+              ],
+            )
+          ]
         )
       )
     );

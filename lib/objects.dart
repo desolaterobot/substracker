@@ -73,9 +73,12 @@ DateTime nextPayment(Map subInfo){
   DateTime today = DateTime.now();
   DateTime start = dateFormatter.parse(subInfo['date']);
   String unit = subInfo['period'][1];
+  int rep = subInfo['period'][0];
   if(unit == 'day'){
-    //return date of tommorrow
-    return today.add(const Duration(days: 1));
+    while(today.isAfter(start)){
+      start = DateTime(start.year, start.month, start.day + rep);
+    }
+    return start;
   }
   if(unit == 'week'){
     /*
@@ -88,7 +91,7 @@ DateTime nextPayment(Map subInfo){
     }
     */
     while(today.isAfter(start)){
-      start = DateTime(start.year, start.month, start.day + 7);
+      start = DateTime(start.year, start.month, start.day + 7*rep);
     }
     return start;
   }
@@ -103,25 +106,25 @@ DateTime nextPayment(Map subInfo){
     }
     */
     while(today.isAfter(start)){
-      start = DateTime(start.year, start.month + 1, start.day);
+      start = DateTime(start.year, start.month + rep, start.day);
     }
     return start;
   }
   if(unit == 'year'){
     while(today.isAfter(start)){
-      start = DateTime(start.year + 1, start.month, start.day);
+      start = DateTime(start.year + rep, start.month, start.day);
     }
     return start;
   }
   if(unit == 'decade'){
     while(today.isAfter(start)){
-      start = DateTime(start.year + 10, start.month, start.day);
+      start = DateTime(start.year + 10*rep, start.month, start.day);
     }
     return start;
   }
   if(unit == 'century'){
     while(today.isAfter(start)){
-      start = DateTime(start.year + 100, start.month, start.day);
+      start = DateTime(start.year + 100*rep, start.month, start.day);
     }
     return start;
   }
@@ -145,12 +148,15 @@ List<String> getEarliest(){
 }
 
 //call this function in any part of your function if you want to show a message window.
-Future messageWindow(BuildContext context, String title, String body){
+Future messageWindow(BuildContext context, String title, String body, {double scale = 1.3, TextAlign align = TextAlign.left}){
   return showDialog(
     context: context, 
     builder: (builder)=>AlertDialog(
       title: showText(title, scale: 1.5),
-      content: showText(body, scale: 1.3),
+      content: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: showText(body, scale: scale, align: align)
+      ),
       actions: [
         TextButton(
           onPressed: closeWindowFunc(context),
@@ -259,4 +265,27 @@ To add a subscription, tap the circular button on the bottom right area of the s
 Subscriptions are laid out below the dashboard as a list of cards with your choice of colors.
 
 To delete a subscription, click on the subscription card and press DELETE.
+""";
+
+String helpParagraph = 
+"""
+SUBSCRIPTION NAME
+Give a name for this subscription.
+
+PRICE
+Prices must be numerical, decimals allowed but no commas please.
+
+PAYMENT INTERVAL
+2 settings: 'Number' and 'Unit'.
+Basically, if the Number is set to 2, Unit is set to 'month', payment is made every 2 months.
+Useful for slightly irregular intervals, such as school semesters, which are a period of 4 months.
+
+SUBSCRIPTION START DATE
+I know we usually forget this, but this is used to calculate when the next payment is. Defaults to today, pressing CHANGE DATE would open a date picker to choose another date.
+
+OTHER NOTES
+Used to store more information about this payment, such as passwords or reminders. Once subscription is created, tap on its card to show this information.
+
+CARD COLOR
+All the subscriptions are shown as cards, and tapping this button changes the color of the card representing this particular subscription.
 """;
