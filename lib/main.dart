@@ -202,31 +202,35 @@ class _MyAppState extends State<MyApp> {
                 ),
               ),
               const SizedBox(height: 30),
-              showText('PAYMENT INTERVAL'),
+              showText('PAYMENT MADE EVERY'),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: 60,
-                    width: 70,
+                    height: 36,
+                    width: 50,
                     child: TextField( //CHOOSE NUMBER
+                      style: const TextStyle(
+                        fontSize: 22
+                      ),
                       controller: numberCont,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                         labelStyle: TextStyle(
+                          fontSize: 50,
                           fontFamily: 'Wix'
                         ),
-                        labelText: 'Number',
                       ),
                     ),
                   ),
-                  const SizedBox(width: 20),
                   SizedBox( //MONTH TEXT FIELD
-                    height: 60,
-                    width: 132,
+                    height: 54,
+                    width: 120,
                     child: DropdownButton<String>(
                       iconSize: 25,
                       isExpanded: true,
-                      style: TextStyle(color: themeColor, fontSize: 26),
+                      style: TextStyle(color: themeColor, fontSize: 25),
                       value: period,
                       underline: Container(height: 2, color: themeColor),
                       items: [
@@ -278,19 +282,6 @@ class _MyAppState extends State<MyApp> {
                   )
                 ],
               ),
-              const SizedBox(height: 15),
-              TextField( //OTHER NOTES TEXT FIELD
-                controller: otherInfoCont,
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                decoration: const InputDecoration(
-                  hintText: 'passwords or whatever...',
-                  labelStyle: TextStyle(
-                    fontFamily: 'Wix'
-                  ),
-                  labelText: 'Other notes',
-                ),
-              ),
               const SizedBox(height: 30),
               SizedBox( //CARD COLOR BUTTON
                 height: 50,
@@ -334,6 +325,19 @@ class _MyAppState extends State<MyApp> {
                   child: showText('CARD COLOR', scale: 1.5, col: darklighttext(color)), 
                 ),
               ),
+              const SizedBox(height: 15),
+              TextField( //OTHER NOTES TEXT FIELD
+                controller: otherInfoCont,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                decoration: const InputDecoration(
+                  hintText: 'passwords or whatever...',
+                  labelStyle: TextStyle(
+                    fontFamily: 'Wix'
+                  ),
+                  labelText: 'Other notes',
+                ),
+              ),
             ],
             )
           ),
@@ -342,9 +346,9 @@ class _MyAppState extends State<MyApp> {
           children:[
                 TextButton(
                   onPressed: (){
-                    messageWindow(context, 'Help', helpParagraph, scale: 0.8);
+                    messageWindow(context, 'Help', helpParagraph, scale: 1.1);
                   },
-                  child: showText('HELP', scale: 2.3),
+                  child: showText('HELP', scale: 2),
                 ),
                 TextButton(
                   onPressed: (){
@@ -377,7 +381,7 @@ class _MyAppState extends State<MyApp> {
                       closeWindow(context);
                     }
                   },
-                  child: showText(buttonTitle, scale: 2.3),
+                  child: showText(buttonTitle, scale: 2),
                 ),
               ],
             )
@@ -436,7 +440,7 @@ class _MyAppState extends State<MyApp> {
                     showText(subInfo['name'], scale: 1.8, col: colB),
                     showText(("\$${subInfo['price']}"), scale: 3, col: colB),
                     showText(priceFormat(subInfo['period']), scale: 1.4, col: colB),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 13),
                     showText(subInfo['date'], col: colB, scale: 1.2),
                   ],
                 ),
@@ -523,11 +527,12 @@ class _MyAppState extends State<MyApp> {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: showText("What is this?"), //this is the title
+        title: showText("What is this?", scale: 1.3), //this is the title
         content: ListView(
+          physics: const BouncingScrollPhysics(),
           shrinkWrap: true,
           children: [
-            showText(aboutParagraph, scale: 0.9, align: TextAlign.center),
+            showText(aboutParagraph, scale: 1.2),
             SizedBox(
               width: 100,
               height: 50,

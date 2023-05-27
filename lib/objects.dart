@@ -275,17 +275,18 @@ Give a name for this subscription.
 PRICE
 Prices must be numerical, decimals allowed but no commas please.
 
-PAYMENT INTERVAL
-2 settings: 'Number' and 'Unit'.
-Basically, if the Number is set to 2, Unit is set to 'month', payment is made every 2 months.
-Useful for slightly irregular intervals, such as school semesters, which are a period of 4 months.
+PAYMENT MADE EVERY
+2 values: 'Number' and 'Unit'.
+If Number = 2, Unit = 'month', 
+payment is made every 2 months.
+Number is usually 1 unless used for irregular intervals, such as school semesters, which can be 4-5 months long.
 
 SUBSCRIPTION START DATE
-I know we usually forget this, but this is used to calculate when the next payment is. Defaults to today, pressing CHANGE DATE would open a date picker to choose another date.
+Used to calculate when the next payment is. Defaults to today, but to choose another date, tap CHANGE DATE.
 
 OTHER NOTES
 Used to store more information about this payment, such as passwords or reminders. Once subscription is created, tap on its card to show this information.
 
 CARD COLOR
-All the subscriptions are shown as cards, and tapping this button changes the color of the card representing this particular subscription.
+All the subscriptions are shown as cards. Tap this button to change the color of the card representing this particular subscription.
 """;
