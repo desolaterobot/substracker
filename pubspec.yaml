@@ -75,12 +75,6 @@ flutter_launcher_icons:
 # The following section is specific to Flutter packages.
 flutter:
   fonts:
-    - family: Space
-      fonts:
-        - asset: fonts/space.ttf
-    - family: Jet
-      fonts:
-        - asset: fonts/jetbrains.ttf
     - family: Wix
       fonts:
         - asset: fonts/wix.ttf

@@ -258,13 +258,13 @@ List<int> col2list(Color col){
 
 String aboutParagraph = 
 """
-This is an app that tracks your financial subscriptions. Subscriptions be daily, monthly, yearly or any other custom period. The app will then show the average total expenditure for the month, along with other data. 
+This is an app that tracks your subscriptions, or any other periodic payments. Subscriptions be daily, monthly, yearly or any custom period. The app shows the average total expenditure for the month, for the year, and the next payment dates for each of your subscriptions. 
 
 To add a subscription, tap the circular button on the bottom right area of the screen, and fill in the details. 
 
 Subscriptions are laid out below the dashboard as a list of cards with your choice of colors.
 
-To delete a subscription, click on the subscription card and press DELETE.
+To delete or edit a subscription, click on the subscription card and the options will be available.
 """;
 
 String helpParagraph = 
@@ -279,7 +279,7 @@ PAYMENT MADE EVERY
 2 values: 'Number' and 'Unit'.
 If Number = 2, Unit = 'month', 
 payment is made every 2 months.
-Number is usually 1 unless used for irregular intervals, such as school semesters, which can be 4-5 months long.
+Number is usually 1 unless entering irregular intervals, such as school semesters, which can be 4-5 months long.
 
 SUBSCRIPTION START DATE
 Used to calculate when the next payment is. Defaults to today, but to choose another date, tap CHANGE DATE.

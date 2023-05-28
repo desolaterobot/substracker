@@ -59,6 +59,7 @@ void main() async {
     box.write('key', initialData);
   }
   storedData = box.read('key');
+  box.erase();
   runApp(
     const MaterialApp(
       home: MyApp(),
