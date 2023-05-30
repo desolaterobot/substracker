@@ -1,4 +1,4 @@
-package com.example.substracker
+package com.desolate.substracker
 
 import io.flutter.embedding.android.FlutterActivity
 

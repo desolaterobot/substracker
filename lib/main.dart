@@ -11,40 +11,7 @@ var dateFormatter = DateFormat('dd-MMM-yyyy');
 
 Map storedData = {
   "appTheme" : [255, 57, 77, 187],
-  "list": [
-    {
-      "name" : "HBO Max", 
-      "price" : 11.98,
-      "period" : [1, "month"],
-      "color" : col2list(Colors.lime),
-      "date" : '13-Aug-2004',
-      "other info" : "This is the HBO MAX subscription",
-    },
-    {
-      "name" : "Netflix",
-      "price" : 12.95,
-      "period" : [1, "week"],
-      "color" : [255, 45, 142, 77],
-      "date" : '22-Dec-2001',
-      "other info" : "This is the Netflix subscription",
-    },
-    {
-      "name" : "Amazon Prime",
-      "price" : 4.90,
-      "period" : [1, "day"],
-      "date" : '15-Nov-2014',
-      "color" : [255, 4, 55, 89],
-      "other info" : "This is the Amazon Prime subscription.",
-    },
-    {
-      "name" : "Salary",
-      "price" : -1500,
-      "period" : [1, "month"],
-      "date" : '15-Nov-2014',
-      "color" : [255, 253,67,99],
-      "other info" : "oh my gosh",
-    },
-  ],
+  "list": [],
 };
 
 Map initialData = {
@@ -59,7 +26,6 @@ void main() async {
     box.write('key', initialData);
   }
   storedData = box.read('key');
-  box.erase();
   runApp(
     const MaterialApp(
       home: MyApp(),
@@ -531,7 +497,7 @@ class _MyAppState extends State<MyApp> {
         title: showText("What is this?", scale: 1.3), //this is the title
         content: ListView(
           physics: const BouncingScrollPhysics(),
-          shrinkWrap: true,
+          //shrinkWrap: true,
           children: [
             showText(aboutParagraph, scale: 1.2),
             SizedBox(
