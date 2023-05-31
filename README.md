@@ -8,4 +8,5 @@ Features
 - Display the date of the next payment for each of your subscriptions
 - Store optional notes about each subscription
 
-Submitted to the Google Play Store, now awaiting approval. Till then, the android .apk or .aab file is available in the APK AND APPBUNDLE folder for installation.
+### Submitted to the Google Play Store, now awaiting approval. Till then, the android .apk or .aab file is available in the APK AND APPBUNDLE folder for installation.
+#### To install the app via .apk or aab, download the .apk or aab file, move it to your Android device and install from the Android device.
