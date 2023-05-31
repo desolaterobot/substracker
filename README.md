@@ -1,6 +1,6 @@
 # substracker
 
-### Subscription tracker app, designed for mobile devices.
+### Subscription tracker app, designed for mobile devices. Check it out on the Google Play Store [here!](https://play.google.com/store/apps/details?id=com.desolate.substracker)
 
 Features
 - Add as many subscriptions as you want
@@ -8,5 +8,4 @@ Features
 - Display the date of the next payment for each of your subscriptions
 - Store optional notes about each subscription
 
-### Submitted to the Google Play Store, now awaiting approval. Till then, the android .apk or .aab file is available in the APK AND APPBUNDLE folder for installation.
-#### To install the app via .apk or aab, download the .apk or aab file, move it to your Android device and install from the Android device.
+### .apk and .aab file available in the APK AND AAB folder.
