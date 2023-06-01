@@ -4,7 +4,7 @@
 ## Download from the Google Play Store [here!](https://play.google.com/store/apps/details?id=com.desolate.substracker)
 ![screenshot](https://github.com/desolaterobot/substracker/blob/main/screenshots.png)
 
-###Features
+### Features
 - Add as many subscriptions as you want
 - Display monthly and yearly expenditure
 - Display the date of the next payment for each of your subscriptions
