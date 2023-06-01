@@ -1,7 +1,7 @@
 # substracker
 
-### Subscription tracker app, designed for mobile devices.
-### Program source code is in the lib folder, all other folders are Flutter boilerplate.
+### Subscription tracker app, designed for mobile devices. 
+## Download from the Google Play Store [here!](https://play.google.com/store/apps/details?id=com.desolate.substracker)
 
 Features
 - Add as many subscriptions as you want
